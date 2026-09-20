@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moritz — NoppoStudio AI Engine</title>
+
+<style>
+:root{
+    --bg:#f6f9fc;
+    --ink:#0b1220;
+    --muted:#667386;
+    --blue:#2678ff;
+    --blue2:#65a7ff;
+    --line:rgba(21,66,115,.13);
+    --white:rgba(255,255,255,.78);
+    --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:auto;
+}
+
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Helvetica Neue",
+        "Noto Sans JP",
+        sans-serif;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:100;
+    opacity:.025;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* =========================================================
+   GLOBAL NAV
+========================================================= */
+
+.nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:76px;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 42px;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+}
+
+.nav-brand{
+    font-size:15px;
+    font-weight:650;
+    letter-spacing:.08em;
+    pointer-events:auto;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    font-size:11px;
+    letter-spacing:.13em;
+    color:#687487;
+    text-transform:uppercase;
+}
+
+.nav-status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.nav-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#3b87ff;
+    box-shadow:0 0 12px rgba(59,135,255,.55);
+}
+
+.progress{
+    position:fixed;
+    top:0;
+    left:0;
+    height:2px;
+    width:100%;
+    z-index:60;
+    transform-origin:left;
+    transform:scaleX(0);
+    background:#287cff;
+}
+
+/* =========================================================
+   COMMON
+========================================================= */
+
+.section{
+    position:relative;
+}
+
+.sticky{
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow:hidden;
+}
+
+.kicker{
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:#718096;
+    font-weight:650;
+}
+
+.section-copy{
+    position:absolute;
+    z-index:20;
+}
+
+.section-title{
+    margin:0;
+    font-size:clamp(42px,6vw,92px);
+    line-height:.94;
+    letter-spacing:-.055em;
+    font-weight:600;
+}
+
+.section-desc{
+    margin:24px 0 0;
+    max-width:430px;
+    font-size:14px;
+    line-height:1.9;
+    color:#647084;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    height:190vh;
+}
+
+.hero-stage{
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(95,164,255,.12),
+            transparent 28%
+        ),
+        linear-gradient(
+            180deg,
+            #f9fbfd 0%,
+            #f4f8fc 100%
+        );
+}
+
+.hero-content{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10;
+}
+
+.hero-lockup{
+    text-align:center;
+    transform:translateY(-3vh);
+}
+
+.hero-kicker{
+    margin-bottom:28px;
+    font-size:10px;
+    letter-spacing:.3em;
+    color:#778497;
+    opacity:0;
+    transform:translateY(20px);
+}
+
+.hero-title{
+    position:relative;
+    margin:0;
+    font-size:clamp(84px,16vw,245px);
+    line-height:.8;
+    letter-spacing:-.075em;
+    font-weight:650;
+    color:#0b1322;
+}
+
+.hero-title span{
+    position:relative;
+    z-index:3;
+}
+
+.hero-sub{
+    margin-top:36px;
+    font-size:13px;
+    letter-spacing:.08em;
+    color:#667487;
+    opacity:0;
+    transform:translateY(18px);
+}
+
+.hero-mark{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:min(70vw,850px);
+    height:min(70vw,850px);
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+}
+
+.hero-ring{
+    position:absolute;
+    inset:0;
+    border:1px solid rgba(37,117,240,.10);
+    border-radius:50%;
+}
+
+.hero-ring.r1{
+    transform:scale(.34);
+}
+
+.hero-ring.r2{
+    transform:scale(.57);
+}
+
+.hero-ring.r3{
+    transform:scale(.79);
+}
+
+.hero-ring.r4{
+    transform:scale(1);
+}
+
+.hero-axis{
+    position:absolute;
+    background:rgba(44,113,205,.11);
+}
+
+.hero-axis.h{
+    left:0;
+    right:0;
+    top:50%;
+    height:1px;
+}
+
+.hero-axis.v{
+    top:0;
+    bottom:0;
+    left:50%;
+    width:1px;
+}
+
+.hero-orb{
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    left:50%;
+    top:50%;
+    background:#fff;
+    border:2px solid #3b87ff;
+    box-shadow:
+        0 0 0 7px rgba(59,135,255,.08),
+        0 0 32px rgba(59,135,255,.25);
+    transform:translate(-50%,-50%);
+}
+
+.hero-orb-trail{
+    position:absolute;
+    width:2px;
+    height:30%;
+    left:50%;
+    top:35%;
+    transform-origin:50% 100%;
+    background:linear-gradient(
+        to bottom,
+        transparent,
+        rgba(50,126,244,.4)
+    );
+    opacity:0;
+}
+
+.hero-index{
+    position:absolute;
+    bottom:38px;
+    left:42px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    font-size:10px;
+    letter-spacing:.18em;
+    color:#8792a1;
+}
+
+.hero-index-line{
+    width:38px;
+    height:1px;
+    background:#8792a1;
+}
+
+/* =========================================================
+   MORPH
+========================================================= */
+
+.morph{
+    height:190vh;
+    background:#f2f6fa;
+}
+
+.morph-stage{
+    background:#f2f6fa;
+}
+
+.morph-frame{
+    position:absolute;
+    inset:8vh 5vw;
+    border:1px solid rgba(33,76,120,.12);
+    overflow:hidden;
+}
+
+.morph-frame::before,
+.morph-frame::after{
+    content:"";
+    position:absolute;
+    pointer-events:none;
+}
+
+.morph-frame::before{
+    inset:0;
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0 49.95%,
+            rgba(40,110,200,.10) 50%,
+            transparent 50.05%
+        ),
+        linear-gradient(
+            0deg,
+            transparent 0 49.95%,
+            rgba(40,110,200,.10) 50%,
+            transparent 50.05%
+        );
+}
+
+.morph-frame::after{
+    inset:7%;
+    border:1px solid rgba(35,111,205,.08);
+}
+
+.morph-grid{
+    position:absolute;
+    inset:-20%;
+    background-image:
+        linear-gradient(rgba(46,103,174,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,103,174,.055) 1px, transparent 1px);
+    background-size:72px 72px;
+    transform:perspective(700px) rotateX(55deg) translateY(35%);
+    transform-origin:center bottom;
+}
+
+.morph-light{
+    position:absolute;
+    width:45vw;
+    height:45vw;
+    border-radius:50%;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(
+        circle,
+        rgba(75,145,255,.12),
+        rgba(75,145,255,.025) 35%,
+        transparent 70%
+    );
+    filter:blur(8px);
+}
+
+.morph-beam{
+    position:absolute;
+    width:1px;
+    height:140%;
+    top:-20%;
+    left:12%;
+    background:linear-gradient(
+        transparent,
+        rgba(41,126,246,.32),
+        transparent
+    );
+    transform:rotate(24deg);
+    transform-origin:center;
+}
+
+.morph-copy{
+    left:10%;
+    top:24%;
+    max-width:700px;
+}
+
+.morph-copy .section-title{
+    font-size:clamp(48px,7vw,108px);
+    line-height:1.02;
+}
+
+.morph-word{
+    display:block;
+    margin-top:24px;
+    font-size:clamp(30px,4vw,60px);
+    letter-spacing:-.04em;
+    color:#347de1;
+    font-weight:600;
+}
+
+.morph-core{
+    position:absolute;
+    right:13%;
+    top:50%;
+    width:clamp(90px,10vw,150px);
+    aspect-ratio:1;
+    transform:translateY(-50%);
+}
+
+.core-ring{
+    position:absolute;
+    inset:0;
+    border:1px solid rgba(40,122,242,.25);
+    border-radius:50%;
+}
+
+.core-ring:nth-child(1){
+    transform:scale(.38);
+}
+
+.core-ring:nth-child(2){
+    transform:scale(.67);
+}
+
+.core-ring:nth-child(3){
+    transform:scale(1);
+}
+
+.core-dot{
+    position:absolute;
+    width:8px;
+    height:8px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:#317ff1;
+    box-shadow:0 0 25px rgba(49,127,241,.35);
+}
+
+.morph-node{
+    position:absolute;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#5b99eb;
+}
+
+/* =========================================================
+   INTELLIGENCE
+========================================================= */
+
+.intelligence{
+    height:175vh;
+    background:#eef4fa;
+}
+
+.intelligence-stage{
+    background:
+        linear-gradient(
+            180deg,
+            #eef4fa 0%,
+            #f8fafc 100%
+        );
+}
+
+.intel-world{
+    position:absolute;
+    inset:0;
+    perspective:1000px;
+    overflow:hidden;
+}
+
+.intel-plane{
+    position:absolute;
+    width:58vw;
+    height:38vw;
+    left:50%;
+    top:50%;
+    border:1px solid rgba(35,100,174,.11);
+    transform-style:preserve-3d;
+    transform-origin:center;
+}
+
+.intel-plane.p1{
+    transform:translate(-50%,-50%) rotateX(62deg) rotateZ(-8deg);
+}
+
+.intel-plane.p2{
+    transform:translate(-50%,-50%) rotateX(62deg) rotateZ(12deg) scale(.72);
+}
+
+.intel-plane.p3{
+    transform:translate(-50%,-50%) rotateX(62deg) rotateZ(-24deg) scale(.46);
+}
+
+.intel-plane::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(50,105,180,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(50,105,180,.07) 1px,transparent 1px);
+    background-size:55px 55px;
+}
+
+.intel-copy{
+    left:10%;
+    top:22%;
+    z-index:10;
+}
+
+.intel-title{
+    font-size:clamp(58px,10vw,150px);
+    letter-spacing:-.07em;
+    font-weight:600;
+}
+
+.intel-caption{
+    margin-top:26px;
+    color:#68788c;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.intel-node{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#2f80ef;
+    box-shadow:0 0 18px rgba(47,128,239,.35);
+}
+
+.intel-line{
+    position:absolute;
+    height:1px;
+    transform-origin:left center;
+    background:linear-gradient(
+        90deg,
+        rgba(44,123,239,.5),
+        rgba(44,123,239,0)
+    );
+}
+
+/* =========================================================
+   ECOSYSTEM
+========================================================= */
+
+.ecosystem{
+    height:200vh;
+    background:#f7f9fc;
+}
+
+.eco-stage{
+    background:#f7f9fc;
+}
+
+.eco-header{
+    position:absolute;
+    top:15%;
+    left:8%;
+    z-index:10;
+}
+
+.eco-title{
+    font-size:clamp(50px,8vw,120px);
+    letter-spacing:-.07em;
+    line-height:.92;
+    font-weight:600;
+}
+
+.eco-sub{
+    margin-top:18px;
+    color:#738094;
+    font-size:13px;
+}
+
+.eco-network{
+    position:absolute;
+    width:min(82vw,1100px);
+    height:min(68vw,760px);
+    left:50%;
+    top:55%;
+    transform:translate(-50%,-50%);
+}
+
+.eco-svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    overflow:visible;
+}
+
+.eco-path{
+    fill:none;
+    stroke:rgba(42,111,210,.18);
+    stroke-width:1;
+}
+
+.eco-path.active{
+    stroke:rgba(42,125,241,.5);
+}
+
+.eco-core{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:110px;
+    height:110px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    border:1px solid rgba(39,119,235,.28);
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(8px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:5;
+}
+
+.eco-core::before{
+    content:"";
+    position:absolute;
+    inset:13px;
+    border-radius:50%;
+    border:1px solid rgba(39,119,235,.2);
+}
+
+.eco-core span{
+    font-size:10px;
+    letter-spacing:.18em;
+    color:#357cd9;
+    z-index:2;
+}
+
+.eco-card{
+    position:absolute;
+    width:150px;
+    padding:16px 18px;
+    border:1px solid rgba(32,75,121,.11);
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(10px);
+    box-shadow:0 14px 40px rgba(24,64,110,.055);
+}
+
+.eco-card small{
+    display:block;
+    color:#8994a3;
+    font-size:8px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    margin-bottom:7px;
+}
+
+.eco-card strong{
+    font-size:13px;
+    font-weight:600;
+}
+
+.eco-card.c1{left:4%;top:16%}
+.eco-card.c2{left:22%;top:70%}
+.eco-card.c3{right:4%;top:16%}
+.eco-card.c4{right:22%;top:70%}
+.eco-card.c5{left:42%;top:3%}
+.eco-card.c6{left:42%;bottom:2%}
+
+.eco-particle{
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#3d88eb;
+}
+
+/* =========================================================
+   SERPENT
+========================================================= */
+
+.serpent{
+    height:220vh;
+    background:#080c13;
+    color:white;
+}
+
+.serpent-stage{
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(41,112,235,.13),
+            transparent 32%
+        ),
+        #080c13;
+}
+
+.serpent-stars{
+    position:absolute;
+    inset:0;
+    background-image:
+        radial-gradient(circle,rgba(255,255,255,.5) 0 1px,transparent 1.5px);
+    background-size:97px 97px;
+    opacity:.12;
+}
+
+.serpent-grid{
+    position:absolute;
+    width:150%;
+    height:80%;
+    left:-25%;
+    top:58%;
+    transform:
+        perspective(650px)
+        rotateX(68deg)
+        translateY(0);
+    transform-origin:center top;
+    background-image:
+        linear-gradient(rgba(85,138,216,.10) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(85,138,216,.10) 1px,transparent 1px);
+    background-size:72px 72px;
+}
+
+.serpent-atmosphere{
+    position:absolute;
+    width:65vw;
+    height:65vw;
+    max-width:950px;
+    max-height:950px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(
+        circle,
+        rgba(54,128,255,.18),
+        rgba(37,87,160,.06) 30%,
+        transparent 68%
+    );
+    filter:blur(12px);
+}
+
+.serpent-orbit{
+    position:absolute;
+    left:50%;
+    top:50%;
+    border:1px solid rgba(103,165,255,.18);
+    border-radius:50%;
+    transform-style:preserve-3d;
+}
+
+.serpent-orbit.o1{
+    width:72vw;
+    height:25vw;
+    transform:translate(-50%,-50%) rotateX(65deg) rotateZ(-18deg);
+}
+
+.serpent-orbit.o2{
+    width:57vw;
+    height:20vw;
+    transform:translate(-50%,-50%) rotateX(65deg) rotateZ(28deg);
+}
+
+.serpent-orbit.o3{
+    width:40vw;
+    height:15vw;
+    transform:translate(-50%,-50%) rotateX(65deg) rotateZ(72deg);
+}
+
+.serpent-orbit::after{
+    content:"";
+    position:absolute;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#67a8ff;
+    box-shadow:0 0 22px #3f91ff;
+    left:50%;
+    top:-4px;
+}
+
+.serpent-axis{
+    position:absolute;
+    background:rgba(111,167,241,.12);
+}
+
+.serpent-axis.x{
+    left:0;
+    right:0;
+    top:50%;
+    height:1px;
+}
+
+.serpent-axis.y{
+    top:0;
+    bottom:0;
+    left:50%;
+    width:1px;
+}
+
+.serpent-core{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:180px;
+    height:180px;
+    transform:translate(-50%,-50%) scale(.1);
+    opacity:0;
+    border-radius:50%;
+    border:1px solid rgba(117,178,255,.55);
+    background:
+        radial-gradient(
+            circle,
+            rgba(91,158,255,.32),
+            rgba(19,45,82,.08) 42%,
+            transparent 70%
+        );
+    box-shadow:
+        0 0 100px rgba(49,126,255,.16),
+        inset 0 0 50px rgba(73,146,255,.12);
+}
+
+.serpent-core::before,
+.serpent-core::after{
+    content:"";
+    position:absolute;
+    inset:20px;
+    border-radius:50%;
+    border:1px solid rgba(111,173,255,.25);
+}
+
+.serpent-core::after{
+    inset:54px;
+    background:#4b97ff;
+    border:0;
+    box-shadow:0 0 50px rgba(73,149,255,.75);
+}
+
+.serpent-lockup{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:100%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    z-index:10;
+    pointer-events:none;
+}
+
+.serpent-kicker{
+    font-size:10px;
+    letter-spacing:.42em;
+    color:#7fa8dd;
+    margin-bottom:28px;
+    opacity:0;
+}
+
+.serpent-name{
+    margin:0;
+    font-size:clamp(90px,18vw,300px);
+    line-height:.75;
+    letter-spacing:-.09em;
+    font-weight:500;
+    color:#f7fbff;
+    opacity:0;
+    transform:scale(.75);
+    text-shadow:
+        0 0 50px rgba(69,145,255,.08);
+}
+
+.serpent-version{
+    margin-top:40px;
+    font-size:11px;
+    letter-spacing:.25em;
+    color:#8195ad;
+    opacity:0;
+}
+
+.serpent-info{
+    position:absolute;
+    left:7%;
+    bottom:9%;
+    display:flex;
+    gap:60px;
+    opacity:0;
+    color:#6f829a;
+}
+
+.serpent-info-item{
+    font-size:9px;
+    letter-spacing:.16em;
+}
+
+.serpent-info-item strong{
+    display:block;
+    color:#d9e7fa;
+    font-size:11px;
+    font-weight:500;
+    margin-top:8px;
+}
+
+.serpent-corner{
+    position:absolute;
+    width:70px;
+    height:70px;
+    opacity:0;
+}
+
+.serpent-corner::before,
+.serpent-corner::after{
+    content:"";
+    position:absolute;
+    background:rgba(113,170,244,.4);
+}
+
+.serpent-corner::before{
+    width:70px;
+    height:1px;
+}
+
+.serpent-corner::after{
+    width:1px;
+    height:70px;
+}
+
+.sc-tl{left:6%;top:11%}
+.sc-tr{right:6%;top:11%;transform:rotate(90deg)}
+.sc-br{right:6%;bottom:11%;transform:rotate(180deg)}
+.sc-bl{left:6%;bottom:11%;transform:rotate(270deg)}
+
+/* =========================================================
+   ENGINE
+========================================================= */
+
+.engine{
+    height:110vh;
+    background:#f7f9fb;
+}
+
+.engine-stage{
+    background:#f7f9fb;
+}
+
+.engine-copy{
+    left:9%;
+    top:18%;
+}
+
+.engine-grid{
+    position:absolute;
+    left:9%;
+    right:9%;
+    bottom:13%;
+    height:38%;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--line);
+    border-left:1px solid var(--line);
+}
+
+.engine-cell{
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:24px;
+    position:relative;
+    overflow:hidden;
+}
+
+.engine-cell::before{
+    content:"";
+    position:absolute;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:1px solid rgba(44,124,237,.15);
+    right:20px;
+    bottom:-20px;
+}
+
+.engine-cell span{
+    display:block;
+    font-size:9px;
+    letter-spacing:.16em;
+    color:#8893a1;
+    margin-bottom:12px;
+}
+
+.engine-cell strong{
+    font-size:14px;
+    font-weight:550;
+}
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final{
+    height:100vh;
+    background:#eef4fa;
+}
+
+.final-stage{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(64,137,243,.12),
+            transparent 35%
+        ),
+        #eef4fa;
+}
+
+.final-title{
+    margin:0;
+    font-size:clamp(50px,8vw,125px);
+    letter-spacing:-.075em;
+    font-weight:600;
+}
+
+.final-sub{
+    margin-top:26px;
+    color:#6e7b8d;
+    font-size:13px;
+}
+
+.final-mark{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    border:1px solid rgba(41,120,233,.10);
+}
+
+.final-mark::before,
+.final-mark::after{
+    content:"";
+    position:absolute;
+    inset:20%;
+    border-radius:50%;
+    border:1px solid rgba(41,120,233,.08);
+}
+
+.final-mark::after{
+    inset:40%;
+    background:#3785ee;
+    border:0;
+    box-shadow:0 0 50px rgba(55,133,238,.2);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:760px){
+
+    .nav{
+        padding:0 20px;
+    }
+
+    .nav-right{
+        display:none;
+    }
+
+    .hero-title{
+        font-size:22vw;
+    }
+
+    .hero-mark{
+        width:110vw;
+        height:110vw;
+    }
+
+    .morph-copy{
+        left:8%;
+        right:8%;
+        top:18%;
+    }
+
+    .morph-core{
+        right:12%;
+        top:72%;
+    }
+
+    .intel-copy{
+        left:8%;
+        top:17%;
+    }
+
+    .intel-plane{
+        width:120vw;
+        height:80vw;
+    }
+
+    .eco-header{
+        left:8%;
+        top:10%;
+    }
+
+    .eco-network{
+        width:120vw;
+        height:100vw;
+        top:57%;
+    }
+
+    .eco-card{
+        width:120px;
+        padding:12px;
+    }
+
+    .eco-card.c1{left:0}
+    .eco-card.c3{right:0}
+    .eco-card.c2{left:8%}
+    .eco-card.c4{right:8%}
+
+    .serpent-name{
+        font-size:22vw;
+    }
+
+    .serpent-info{
+        left:7%;
+        bottom:7%;
+        gap:24px;
+    }
+
+    .engine-grid{
+        grid-template-columns:1fr 1fr;
+        left:7%;
+        right:7%;
+    }
+
+    .engine-copy{
+        left:7%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header class="nav">
+    <div class="nav-brand">MORITZ</div>
+    <div class="nav-right">
+        <div class="nav-status">
+            <span class="nav-dot"></span>
+            NOPPOSTUDIO AI ENGINE
+        </div>
+        <span>V1</span>
+    </div>
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="section hero" data-scene="hero">
+
+    <div class="sticky hero-stage">
+
+        <div class="hero-mark" id="heroMark">
+            <div class="hero-ring r1"></div>
+            <div class="hero-ring r2"></div>
+            <div class="hero-ring r3"></div>
+            <div class="hero-ring r4"></div>
+            <div class="hero-axis h"></div>
+            <div class="hero-axis v"></div>
+
+            <div class="hero-orb" id="heroOrb"></div>
+            <div class="hero-orb-trail" id="heroTrail"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-lockup">
+                <div class="hero-kicker" id="heroKicker">
+                    NOPPOSTUDIO / INTELLIGENCE ENGINE
+                </div>
+
+                <h1 class="hero-title" id="heroTitle">
+                    <span>MORITZ</span>
+                </h1>
+
+                <div class="hero-sub" id="heroSub">
+                    A general-purpose intelligence engine.
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-index">
+            <span>01</span>
+            <span class="hero-index-line"></span>
+            <span>BEGIN</span>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     MORPH
+===================================================== -->
+
+<section class="section morph" data-scene="morph">
+
+    <div class="sticky morph-stage">
+
+        <div class="morph-frame" id="morphFrame">
+
+            <div class="morph-grid" id="morphGrid"></div>
+            <div class="morph-light" id="morphLight"></div>
+            <div class="morph-beam" id="morphBeam"></div>
+
+            <div class="morph-node" style="left:18%;top:22%"></div>
+            <div class="morph-node" style="left:72%;top:28%"></div>
+            <div class="morph-node" style="left:24%;top:76%"></div>
+            <div class="morph-node" style="left:82%;top:70%"></div>
+
+            <div class="morph-core" id="morphCore">
+                <div class="core-ring"></div>
+                <div class="core-ring"></div>
+                <div class="core-ring"></div>
+                <div class="core-dot"></div>
+            </div>
+
+            <div class="section-copy morph-copy" id="morphCopy">
+                <div class="kicker">THE SAME INTELLIGENCE</div>
+
+                <h2 class="section-title">
+                    ひとつの知性が、<br>
+                    形を変える。
+                </h2>
+
+                <div class="morph-word">
+                    Moritz
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     INTELLIGENCE
+===================================================== -->
+
+<section class="section intelligence" data-scene="intelligence">
+
+    <div class="sticky intelligence-stage">
+
+        <div class="intel-world" id="intelWorld">
+
+            <div class="intel-plane p1" id="intelPlane1"></div>
+            <div class="intel-plane p2" id="intelPlane2"></div>
+            <div class="intel-plane p3" id="intelPlane3"></div>
+
+            <div class="intel-line" style="left:58%;top:42%;width:32%;transform:rotate(18deg)"></div>
+            <div class="intel-line" style="left:48%;top:61%;width:39%;transform:rotate(-23deg)"></div>
+            <div class="intel-line" style="left:62%;top:52%;width:22%;transform:rotate(71deg)"></div>
+
+            <div class="intel-node" style="left:62%;top:39%"></div>
+            <div class="intel-node" style="left:74%;top:49%"></div>
+            <div class="intel-node" style="left:57%;top:64%"></div>
+            <div class="intel-node" style="left:83%;top:62%"></div>
+            <div class="intel-node" style="left:69%;top:74%"></div>
+
+        </div>
+
+        <div class="section-copy intel-copy" id="intelCopy">
+            <div class="kicker">INTELLIGENCE</div>
+
+            <h2 class="section-title intel-title">
+                INTELLIGENCE
+            </h2>
+
+            <div class="intel-caption">
+                理解する。生成する。考える。<br>
+                NoppoStudioのサービスに、同じ知性を組み込む。
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     ECOSYSTEM
+===================================================== -->
+
+<section class="section ecosystem" data-scene="ecosystem">
+
+    <div class="sticky eco-stage">
+
+        <div class="eco-header" id="ecoHeader">
+            <div class="kicker">ONE ENGINE / MANY FORMS</div>
+            <h2 class="eco-title">
+                ONE<br>
+                INTELLIGENCE.
+            </h2>
+            <div class="eco-sub">
+                サービスが変わっても、知性はひとつ。
+            </div>
+        </div>
+
+        <div class="eco-network" id="ecoNetwork">
+
+            <svg class="eco-svg" viewBox="0 0 1000 700">
+                <path class="eco-path" id="path1" d="M500 350 C400 270 280 180 110 130"/>
+                <path class="eco-path" id="path2" d="M500 350 C390 390 300 520 220 610"/>
+                <path class="eco-path" id="path3" d="M500 350 C620 270 750 180 900 130"/>
+                <path class="eco-path" id="path4" d="M500 350 C610 400 720 520 820 610"/>
+                <path class="eco-path" id="path5" d="M500 350 C500 250 500 170 500 60"/>
+                <path class="eco-path" id="path6" d="M500 350 C500 450 500 540 500 650"/>
+            </svg>
+
+            <div class="eco-core" id="ecoCore">
+                <span>MORITZ</span>
+            </div>
+
+            <div class="eco-card c1" id="eco1">
+                <small>01</small>
+                <strong>Chat</strong>
+            </div>
+
+            <div class="eco-card c2" id="eco2">
+                <small>02</small>
+                <strong>Board</strong>
+            </div>
+
+            <div class="eco-card c3" id="eco3">
+                <small>03</small>
+                <strong>Password</strong>
+            </div>
+
+            <div class="eco-card c4" id="eco4">
+                <small>04</small>
+                <strong>Tools</strong>
+            </div>
+
+            <div class="eco-card c5" id="eco5">
+                <small>05</small>
+                <strong>Future Services</strong>
+            </div>
+
+            <div class="eco-card c6" id="eco6">
+                <small>06</small>
+                <strong>More Forms</strong>
+            </div>
+
+            <div class="eco-particle" style="left:30%;top:33%"></div>
+            <div class="eco-particle" style="left:70%;top:34%"></div>
+            <div class="eco-particle" style="left:31%;top:64%"></div>
+            <div class="eco-particle" style="left:69%;top:64%"></div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     SERPENT
+===================================================== -->
+
+<section class="section serpent" data-scene="serpent">
+
+    <div class="sticky serpent-stage">
+
+        <div class="serpent-stars" id="serpentStars"></div>
+
+        <div class="serpent-grid" id="serpentGrid"></div>
+
+        <div class="serpent-atmosphere" id="serpentAtmosphere"></div>
+
+        <div class="serpent-orbit o1" id="orbit1"></div>
+        <div class="serpent-orbit o2" id="orbit2"></div>
+        <div class="serpent-orbit o3" id="orbit3"></div>
+
+        <div class="serpent-axis x" id="serpentAxisX"></div>
+        <div class="serpent-axis y" id="serpentAxisY"></div>
+
+        <div class="serpent-core" id="serpentCore"></div>
+
+        <div class="serpent-lockup">
+
+            <div class="serpent-kicker" id="serpentKicker">
+                MORITZ / GENERATION 01
+            </div>
+
+            <h2 class="serpent-name" id="serpentName">
+                SERPENT
+            </h2>
+
+            <div class="serpent-version" id="serpentVersion">
+                MORITZ v1
+            </div>
+
+        </div>
+
+        <div class="serpent-info" id="serpentInfo">
+
+            <div class="serpent-info-item">
+                GENERATION
+                <strong>01</strong>
+            </div>
+
+            <div class="serpent-info-item">
+                ENGINE
+                <strong>MORITZ</strong>
+            </div>
+
+            <div class="serpent-info-item">
+                STATUS
+                <strong>ACTIVE</strong>
+            </div>
+
+        </div>
+
+        <div class="serpent-corner sc-tl" id="sc1"></div>
+        <div class="serpent-corner sc-tr" id="sc2"></div>
+        <div class="serpent-corner sc-br" id="sc3"></div>
+        <div class="serpent-corner sc-bl" id="sc4"></div>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     ENGINE
+===================================================== -->
+
+<section class="section engine" data-scene="engine">
+
+    <div class="sticky engine-stage">
+
+        <div class="section-copy engine-copy" id="engineCopy">
+            <div class="kicker">BUILT FOR SERVICES</div>
+            <h2 class="section-title">
+                A common<br>
+                intelligence layer.
+            </h2>
+        </div>
+
+        <div class="engine-grid" id="engineGrid">
+
+            <div class="engine-cell">
+                <span>01</span>
+                <strong>Context</strong>
+            </div>
+
+            <div class="engine-cell">
+                <span>02</span>
+                <strong>Reasoning</strong>
+            </div>
+
+            <div class="engine-cell">
+                <span>03</span>
+                <strong>Generation</strong>
+            </div>
+
+            <div class="engine-cell">
+                <span>04</span>
+                <strong>Adaptation</strong>
+            </div>
+
+            <div class="engine-cell">
+                <span>05</span>
+                <strong>Integration</strong>
+            </div>
+
+            <div class="engine-cell">
+                <span>06</span>
+                <strong>Experience</strong>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     FINAL
+===================================================== -->
+
+<section class="section final" data-scene="final">
+
+    <div class="sticky final-stage">
+
+        <div class="final-mark" id="finalMark"></div>
+
+        <div style="position:relative;z-index:5">
+            <div class="kicker">NOPPOSTUDIO</div>
+
+            <h2 class="final-title" id="finalTitle">
+                Intelligence,<br>
+                in many forms.
+            </h2>
+
+            <div class="final-sub" id="finalSub">
+                Moritz is the intelligence engine behind NoppoStudio.
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<script>
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+const clamp = (v,min=0,max=1) =>
+    Math.min(max,Math.max(min,v));
+
+const lerp = (a,b,t) =>
+    a + (b-a)*t;
+
+const ease = t =>
+    t*t*(3-2*t);
+
+const easeOut = t =>
+    1-Math.pow(1-t,3);
+
+const map = (v,a,b,c,d) =>
+    c + (d-c)*clamp((v-a)/(b-a));
+
+const $ = id => document.getElementById(id);
+
+
+/* =========================================================
+   SECTION PROGRESS
+========================================================= */
+
+const scenes = [...document.querySelectorAll("[data-scene]")];
+
+function getSceneProgress(section){
+
+    const rect = section.getBoundingClientRect();
+    const total = Math.max(1,section.offsetHeight-window.innerHeight);
+
+    return clamp(-rect.top/total);
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+let scrollY = window.scrollY;
+let targetScroll = window.scrollY;
+let currentScroll = window.scrollY;
+
+window.addEventListener("scroll",()=>{
+    targetScroll = window.scrollY;
+},{passive:true});
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+function renderHero(p){
+
+    /*
+      0.00 — clean introduction
+      0.18 — supporting geometry begins
+      0.42 — orb begins travelling
+      0.68 — architecture rotates
+      0.88 — transition
+    */
+
+    const intro = easeOut(map(p,0,.18,0,1));
+
+    $("heroKicker").style.opacity = intro;
+    $("heroKicker").style.transform =
+        `translateY(${lerp(20,0,intro)}px)`;
+
+    $("heroSub").style.opacity =
+        easeOut(map(p,.06,.22,0,1));
+
+    $("heroSub").style.transform =
+        `translateY(${lerp(18,0,easeOut(map(p,.06,.22,0,1)))}px)`;
+
+    /*
+      The title barely moves.
+      The world around it moves.
+    */
+
+    const ringProgress = ease(map(p,.15,.72,0,1));
+
+    $("heroMark").style.transform =
+        `translate(-50%,-50%)
+         rotate(${lerp(0,18,ringProgress)}deg)
+         scale(${lerp(1,1.16,ringProgress)})`;
+
+    $("heroMark").querySelector(".r1").style.transform =
+        `scale(${lerp(.34,.45,ringProgress)})
+         rotate(${lerp(0,-22,ringProgress)}deg)`;
+
+    $("heroMark").querySelector(".r2").style.transform =
+        `scale(${lerp(.57,.73,ringProgress)})
+         rotate(${lerp(0,15,ringProgress)}deg)`;
+
+    $("heroMark").querySelector(".r3").style.transform =
+        `scale(${lerp(.79,.95,ringProgress)})
+         rotate(${lerp(0,-8,ringProgress)}deg)`;
+
+    /*
+      One orb.
+      It doesn't just scale in.
+      It travels around the architecture.
+    */
+
+    const orbP = easeOut(map(p,.30,.70,0,1));
+
+    const angle =
+        -Math.PI*.55 +
+        orbP*Math.PI*1.75;
+
+    const radius = 190;
+
+    const x = Math.cos(angle)*radius;
+    const y = Math.sin(angle)*radius*.7;
+
+    $("heroOrb").style.transform =
+        `translate(calc(-50% + ${x}px),calc(-50% + ${y}px))
+         scale(${lerp(1,1.45,orbP)})`;
+
+    $("heroTrail").style.opacity =
+        map(p,.30,.42,0,1) *
+        map(p,.70,.82,1,0);
+
+    $("heroTrail").style.transform =
+        `rotate(${angle*180/Math.PI + 90}deg)
+         scaleY(${lerp(.4,1.6,orbP)})`;
+
+    const exit = ease(map(p,.78,1,0,1));
+
+    $("heroTitle").style.transform =
+        `translateY(${lerp(0,-70,exit)}px)
+         scale(${lerp(1,1.04,exit)})`;
+
+    $("heroTitle").style.opacity =
+        lerp(1,.05,exit);
+
+    $("heroKicker").style.opacity =
+        intro * lerp(1,0,exit);
+
+    $("heroSub").style.opacity =
+        easeOut(map(p,.06,.22,0,1)) *
+        lerp(1,0,exit);
+}
+
+
+/* =========================================================
+   MORPH
+========================================================= */
+
+function renderMorph(p){
+
+    /*
+      Text appears immediately.
+      Animation happens around it.
+    */
+
+    const enter = easeOut(map(p,0,.15,0,1));
+
+    $("morphCopy").style.opacity = enter;
+    $("morphCopy").style.transform =
+        `translateY(${lerp(35,0,enter)}px)`;
+
+    /*
+      Environment bends.
+    */
+
+    const structure = ease(map(p,.10,.78,0,1));
+
+    $("morphGrid").style.transform =
+        `perspective(700px)
+         rotateX(${lerp(55,78,structure)}deg)
+         rotateZ(${lerp(0,-7,structure)}deg)
+         translateY(${lerp(35,8,structure)}%)`;
+
+    $("morphGrid").style.backgroundSize =
+        `${lerp(72,45,structure)}px ${lerp(72,45,structure)}px`;
+
+    $("morphBeam").style.left =
+        `${lerp(12,82,structure)}%`;
+
+    $("morphBeam").style.transform =
+        `rotate(${lerp(24,-38,structure)}deg)
+         scaleY(${lerp(1,1.4,structure)})`;
+
+    $("morphLight").style.transform =
+        `translate(-50%,-50%)
+         scale(${lerp(.8,1.8,structure)})
+         translate(${lerp(0,40,structure)}px,
+                   ${lerp(0,-30,structure)}px)`;
+
+    /*
+      Core changes from static point to system.
+    */
+
+    const core = easeOut(map(p,.26,.68,0,1));
+
+    $("morphCore").style.transform =
+        `translateY(-50%)
+         rotate(${lerp(0,180,core)}deg)
+         scale(${lerp(.65,1.35,core)})`;
+
+    $("morphCore").style.opacity =
+        easeOut(map(p,.20,.30,0,1));
+
+    /*
+      Frame itself moves.
+    */
+
+    const frame = ease(map(p,.55,.95,0,1));
+
+    $("morphFrame").style.transform =
+        `perspective(1200px)
+         rotateY(${lerp(0,-7,frame)}deg)
+         rotateX(${lerp(0,3,frame)}deg)
+         scale(${lerp(1,1.08,frame)})`;
+
+    /*
+      The copy remains readable.
+    */
+
+    $("morphCopy").style.transform =
+        `translateY(${lerp(35,0,enter)}px)
+         translateX(${lerp(0,-25,frame)}px)`;
+
+    $("morphCopy").style.opacity =
+        lerp(enter,0,Math.max(0,(p-.88)/.12));
+}
+
+
+/* =========================================================
+   INTELLIGENCE
+========================================================= */
+
+function renderIntelligence(p){
+
+    const intro = easeOut(map(p,0,.18,0,1));
+
+    $("intelCopy").style.opacity = intro;
+    $("intelCopy").style.transform =
+        `translateY(${lerp(35,0,intro)}px)`;
+
+    const world = ease(map(p,.08,.88,0,1));
+
+    $("intelPlane1").style.transform =
+        `translate(-50%,-50%)
+         rotateX(${lerp(62,48,world)}deg)
+         rotateZ(${lerp(-8,18,world)}deg)
+         scale(${lerp(1,1.25,world)})`;
+
+    $("intelPlane2").style.transform =
+        `translate(-50%,-50%)
+         rotateX(${lerp(62,70,world)}deg)
+         rotateZ(${lerp(12,-25,world)}deg)
+         scale(${lerp(.72,.92,world)})`;
+
+    $("intelPlane3").style.transform =
+        `translate(-50%,-50%)
+         rotateX(${lerp(62,38,world)}deg)
+         rotateZ(${lerp(-24,45,world)}deg)
+         scale(${lerp(.46,.75,world)})`;
+
+    $("intelWorld").style.transform =
+        `translate(
+            ${lerp(0,-4,world)}vw,
+            ${lerp(0,-2,world)}vh
+         )`;
+
+    const exit = ease(map(p,.82,1,0,1));
+
+    $("intelCopy").style.transform =
+        `translateY(${lerp(35,0,intro)}px)
+         translateX(${lerp(0,-60,exit)}px)`;
+
+    $("intelCopy").style.opacity =
+        intro * lerp(1,0,exit);
+}
+
+
+/* =========================================================
+   ECOSYSTEM
+========================================================= */
+
+function renderEcosystem(p){
+
+    const headerIn = easeOut(map(p,0,.18,0,1));
+
+    $("ecoHeader").style.opacity = headerIn;
+    $("ecoHeader").style.transform =
+        `translateY(${lerp(30,0,headerIn)}px)`;
+
+    /*
+      Network doesn't simply fade in.
+      It physically grows outward from the core.
+    */
+
+    const network = easeOut(map(p,.12,.72,0,1));
+
+    $("ecoNetwork").style.transform =
+        `translate(-50%,-50%)
+         scale(${lerp(.72,1,network)})
+         rotate(${lerp(-3,0,network)}deg)`;
+
+    $("ecoCore").style.transform =
+        `translate(-50%,-50%)
+         scale(${lerp(.45,1,network)})`;
+
+    document.querySelectorAll(".eco-path").forEach((path,i)=>{
+        const length = path.getTotalLength();
+
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset =
+            length*(1-network);
+
+        path.style.opacity =
+            easeOut(map(p,.16 + i*.015,.38 + i*.02,0,1));
+    });
+
+    const cards = [
+        $("eco1"),
+        $("eco2"),
+        $("eco3"),
+        $("eco4"),
+        $("eco5"),
+        $("eco6")
+    ];
+
+    cards.forEach((card,i)=>{
+
+        const start = .30 + i*.035;
+        const local = easeOut(map(p,start,start+.20,0,1));
+
+        const dx =
+            i%2===0 ? lerp(-35,0,local) : lerp(35,0,local);
+
+        const dy = lerp(25,0,local);
+
+        card.style.opacity = local;
+
+        card.style.transform =
+            `translate(${dx}px,${dy}px)
+             scale(${lerp(.94,1,local)})`;
+    });
+
+    const particles =
+        document.querySelectorAll(".eco-particle");
+
+    particles.forEach((particle,i)=>{
+
+        const a =
+            p* Math.PI*2 +
+            i*Math.PI*.5;
+
+        particle.style.transform =
+            `translate(
+                ${Math.cos(a)*25}px,
+                ${Math.sin(a)*25}px
+             )`;
+
+        particle.style.opacity =
+            network;
+    });
+
+    /*
+      Toward the end:
+      everything contracts into the core.
+      This is the bridge to Serpent.
+    */
+
+    const collapse = ease(map(p,.78,1,0,1));
+
+    $("ecoNetwork").style.filter =
+        `blur(${lerp(0,3,collapse)}px)`;
+
+    $("ecoNetwork").style.transform =
+        `translate(-50%,-50%)
+         scale(${lerp(1,.82,collapse)})
+         rotate(${lerp(0,3,collapse)}deg)`;
+
+    $("ecoHeader").style.opacity =
+        headerIn * lerp(1,0,collapse);
+}
+
+
+/* =========================================================
+   SERPENT
+========================================================= */
+
+function renderSerpent(p){
+
+    /*
+      This is not:
+      "SERPENT appears."
+
+      It is:
+      ecosystem collapses
+      →
+      space
+      →
+      orbital system
+      →
+      core
+      →
+      identity
+    */
+
+    const field = easeOut(map(p,0,.16,0,1));
+
+    $("serpentStars").style.opacity =
+        lerp(.03,.20,field);
+
+    $("serpentGrid").style.opacity =
+        lerp(.0,.75,field);
+
+    $("serpentAtmosphere").style.opacity =
+        lerp(.0,1,field);
+
+    const orbit = easeOut(map(p,.10,.40,0,1));
+
+    $("orbit1").style.transform =
+        `translate(-50%,-50%)
+         rotateX(${lerp(75,65,orbit)}deg)
+         rotateZ(${lerp(-45,-18,orbit)}deg)
+         scale(${lerp(.55,1,orbit)})`;
+
+    $("orbit2").style.transform =
+        `translate(-50%,-50%)
+         rotateX(${lerp(45,65,orbit)}deg)
+         rotateZ(${lerp(65,28,orbit)}deg)
+         scale(${lerp(.45,1,orbit)})`;
+
+    $("orbit3").style.transform =
+        `translate(-50%,-50%)
+         rotateX(${lerp(85,65,orbit)}deg)
+         rotateZ(${lerp(110,72,orbit)}deg)
+         scale(${lerp(.3,1,orbit)})`;
+
+    $("serpentAxisX").style.opacity =
+        lerp(0,.5,orbit);
+
+    $("serpentAxisY").style.opacity =
+        lerp(0,.5,orbit);
+
+    /*
+      Core forms.
+    */
+
+    const core = easeOut(map(p,.30,.56,0,1));
+
+    $("serpentCore").style.opacity = core;
+
+    $("serpentCore").style.transform =
+        `translate(-50%,-50%)
+         scale(${lerp(.08,1,core)})
+         rotate(${lerp(-40,0,core)}deg)`;
+
+    /*
+      SERPENT emerges from the completed structure.
+      No letter splitting.
+    */
+
+    const identity = easeOut(map(p,.43,.68,0,1));
+
+    $("serpentKicker").style.opacity =
+        identity;
+
+    $("serpentName").style.opacity =
+        identity;
+
+    $("serpentName").style.transform =
+        `scale(${lerp(.72,1,identity)})
+         translateY(${lerp(35,0,identity)}px)`;
+
+    $("serpentVersion").style.opacity =
+        easeOut(map(p,.55,.72,0,1));
+
+    /*
+      After appearing:
+      the entire structure continues breathing.
+    */
+
+    const settle = map(p,.68,.88,0,1);
+
+    const breathe =
+        Math.sin(p*Math.PI*5)*3;
+
+    $("serpentName").style.transform =
+        `scale(${lerp(.99,1.02,settle)})
+         translateY(${breathe}px)`;
+
+    $("serpentCore").style.transform =
+        `translate(-50%,-50%)
+         scale(${lerp(1,1.08,settle)})
+         rotate(${lerp(0,18,settle)}deg)`;
+
+    $("serpentInfo").style.opacity =
+        easeOut(map(p,.65,.78,0,1));
+
+    document.querySelectorAll(".serpent-corner")
+        .forEach((corner,i)=>{
+
+            corner.style.opacity =
+                easeOut(map(p,.55 + i*.02,.72 + i*.02,0,1));
+        });
+
+    /*
+      Exit:
+      not a fade.
+      The camera moves through the structure.
+    */
+
+    const exit = ease(map(p,.86,1,0,1));
+
+    $("serpentAtmosphere").style.transform =
+        `translate(-50%,-50%)
+         scale(${lerp(1,2.5,exit)})`;
+
+    $("serpentGrid").style.transform =
+        `perspective(650px)
+         rotateX(${lerp(68,82,exit)}deg)
+         translateY(${lerp(0,25,exit)}%)`;
+
+    $("serpentName").style.transform =
+        `scale(${lerp(1,1.65,exit)})
+         translateY(${lerp(breathe,-100,exit)}px)`;
+
+    $("serpentName").style.opacity =
+        lerp(identity,0,exit);
+
+    $("serpentVersion").style.opacity =
+        lerp(
+            easeOut(map(p,.55,.72,0,1)),
+            0,
+            exit
+        );
+}
+
+
+/* =========================================================
+   ENGINE
+========================================================= */
+
+function renderEngine(p){
+
+    const intro = easeOut(map(p,0,.2,0,1));
+
+    $("engineCopy").style.opacity = intro;
+
+    $("engineCopy").style.transform =
+        `translateY(${lerp(30,0,intro)}px)`;
+
+    const grid = easeOut(map(p,.15,.7,0,1));
+
+    [...document.querySelectorAll(".engine-cell")]
+        .forEach((cell,i)=>{
+
+            const local =
+                easeOut(
+                    map(
+                        p,
+                        .15+i*.025,
+                        .34+i*.025,
+                        0,
+                        1
+                    )
+                );
+
+            cell.style.opacity = local;
+
+            cell.style.transform =
+                `translateY(${lerp(20,0,local)}px)`;
+        });
+
+    const exit = ease(map(p,.78,1,0,1));
+
+    $("engineCopy").style.transform =
+        `translateY(${lerp(30,0,intro)}px)
+         translateX(${lerp(0,-60,exit)}px)`;
+
+    $("engineCopy").style.opacity =
+        intro * lerp(1,0,exit);
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+function renderFinal(p){
+
+    const intro = easeOut(map(p,0,.45,0,1));
+
+    $("finalTitle").style.transform =
+        `translateY(${lerp(35,0,intro)}px)`;
+
+    $("finalTitle").style.opacity = intro;
+
+    $("finalSub").style.opacity =
+        easeOut(map(p,.15,.48,0,1));
+
+    $("finalMark").style.transform =
+        `scale(${lerp(.55,1,intro)})
+         rotate(${lerp(-15,15,p)}deg)`;
+
+    $("finalMark").style.opacity =
+        lerp(.2,.75,intro);
+}
+
+
+/* =========================================================
+   MASTER RENDER
+========================================================= */
+
+function render(){
+
+    currentScroll =
+        lerp(currentScroll,targetScroll,.14);
+
+    const documentHeight =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+    $("progress").style.transform =
+        `scaleX(${clamp(
+            currentScroll/documentHeight
+        )})`;
+
+    scenes.forEach(scene=>{
+
+        const p = getSceneProgress(scene);
+
+        switch(scene.dataset.scene){
+
+            case "hero":
+                renderHero(p);
+                break;
+
+            case "morph":
+                renderMorph(p);
+                break;
+
+            case "intelligence":
+                renderIntelligence(p);
+                break;
+
+            case "ecosystem":
+                renderEcosystem(p);
+                break;
+
+            case "serpent":
+                renderSerpent(p);
+                break;
+
+            case "engine":
+                renderEngine(p);
+                break;
+
+            case "final":
+                renderFinal(p);
+                break;
+        }
+    });
+
+    requestAnimationFrame(render);
+}
+
+requestAnimationFrame(render);
+
+
+/* =========================================================
+   POINTER
+========================================================= */
+
+let mouseX = 0;
+let mouseY = 0;
+
+window.addEventListener("pointermove",e=>{
+
+    mouseX =
+        (e.clientX/window.innerWidth-.5);
+
+    mouseY =
+        (e.clientY/window.innerHeight-.5);
+
+    /*
+      Very subtle.
+      The scroll remains the main input.
+    */
+
+    $("heroMark").style.marginLeft =
+        `${mouseX*8}px`;
+
+    $("heroMark").style.marginTop =
+        `${mouseY*8}px`;
+
+    $("serpentAtmosphere").style.marginLeft =
+        `${mouseX*12}px`;
+
+    $("serpentAtmosphere").style.marginTop =
+        `${mouseY*12}px`;
+
+},{passive:true});
+</script>
+
+</body>
+</html>
