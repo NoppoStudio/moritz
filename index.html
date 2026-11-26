@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Moritz — NoppoStudio AI Engine</title>
+<title>Moritz v2 Ophi — NoppoStudio AI Engine</title>
 
 <style>
 :root{
@@ -718,26 +718,26 @@ a{
 }
 
 /* =========================================================
-   SERPENT
+   OPHI
 ========================================================= */
 
-.serpent{
+.ophi{
     height:220vh;
     background:#080c13;
     color:white;
 }
 
-.serpent-stage{
+.ophi-stage{
     background:
         radial-gradient(
             circle at 50% 50%,
-            rgba(41,112,235,.13),
-            transparent 32%
+            rgba(41,112,235,.15),
+            transparent 34%
         ),
         #080c13;
 }
 
-.serpent-stars{
+.ophi-stars{
     position:absolute;
     inset:0;
     background-image:
@@ -746,7 +746,7 @@ a{
     opacity:.12;
 }
 
-.serpent-grid{
+.ophi-grid{
     position:absolute;
     width:150%;
     height:80%;
@@ -763,7 +763,7 @@ a{
     background-size:72px 72px;
 }
 
-.serpent-atmosphere{
+.ophi-atmosphere{
     position:absolute;
     width:65vw;
     height:65vw;
@@ -775,14 +775,14 @@ a{
     border-radius:50%;
     background:radial-gradient(
         circle,
-        rgba(54,128,255,.18),
-        rgba(37,87,160,.06) 30%,
+        rgba(54,128,255,.20),
+        rgba(37,87,160,.07) 32%,
         transparent 68%
     );
     filter:blur(12px);
 }
 
-.serpent-orbit{
+.ophi-orbit{
     position:absolute;
     left:50%;
     top:50%;
@@ -791,25 +791,25 @@ a{
     transform-style:preserve-3d;
 }
 
-.serpent-orbit.o1{
+.ophi-orbit.o1{
     width:72vw;
     height:25vw;
     transform:translate(-50%,-50%) rotateX(65deg) rotateZ(-18deg);
 }
 
-.serpent-orbit.o2{
+.ophi-orbit.o2{
     width:57vw;
     height:20vw;
     transform:translate(-50%,-50%) rotateX(65deg) rotateZ(28deg);
 }
 
-.serpent-orbit.o3{
+.ophi-orbit.o3{
     width:40vw;
     height:15vw;
     transform:translate(-50%,-50%) rotateX(65deg) rotateZ(72deg);
 }
 
-.serpent-orbit::after{
+.ophi-orbit::after{
     content:"";
     position:absolute;
     width:7px;
@@ -821,26 +821,26 @@ a{
     top:-4px;
 }
 
-.serpent-axis{
+.ophi-axis{
     position:absolute;
     background:rgba(111,167,241,.12);
 }
 
-.serpent-axis.x{
+.ophi-axis.x{
     left:0;
     right:0;
     top:50%;
     height:1px;
 }
 
-.serpent-axis.y{
+.ophi-axis.y{
     top:0;
     bottom:0;
     left:50%;
     width:1px;
 }
 
-.serpent-core{
+.ophi-core{
     position:absolute;
     left:50%;
     top:50%;
@@ -853,17 +853,17 @@ a{
     background:
         radial-gradient(
             circle,
-            rgba(91,158,255,.32),
+            rgba(91,158,255,.34),
             rgba(19,45,82,.08) 42%,
             transparent 70%
         );
     box-shadow:
-        0 0 100px rgba(49,126,255,.16),
-        inset 0 0 50px rgba(73,146,255,.12);
+        0 0 100px rgba(49,126,255,.18),
+        inset 0 0 50px rgba(73,146,255,.14);
 }
 
-.serpent-core::before,
-.serpent-core::after{
+.ophi-core::before,
+.ophi-core::after{
     content:"";
     position:absolute;
     inset:20px;
@@ -871,14 +871,14 @@ a{
     border:1px solid rgba(111,173,255,.25);
 }
 
-.serpent-core::after{
+.ophi-core::after{
     inset:54px;
     background:#4b97ff;
     border:0;
-    box-shadow:0 0 50px rgba(73,149,255,.75);
+    box-shadow:0 0 50px rgba(73,149,255,.8);
 }
 
-.serpent-lockup{
+.ophi-lockup{
     position:absolute;
     left:50%;
     top:50%;
@@ -889,7 +889,7 @@ a{
     pointer-events:none;
 }
 
-.serpent-kicker{
+.ophi-kicker{
     font-size:10px;
     letter-spacing:.42em;
     color:#7fa8dd;
@@ -897,7 +897,7 @@ a{
     opacity:0;
 }
 
-.serpent-name{
+.ophi-name{
     margin:0;
     font-size:clamp(90px,18vw,300px);
     line-height:.75;
@@ -910,7 +910,7 @@ a{
         0 0 50px rgba(69,145,255,.08);
 }
 
-.serpent-version{
+.ophi-version{
     margin-top:40px;
     font-size:11px;
     letter-spacing:.25em;
@@ -918,7 +918,7 @@ a{
     opacity:0;
 }
 
-.serpent-info{
+.ophi-info{
     position:absolute;
     left:7%;
     bottom:9%;
@@ -928,12 +928,12 @@ a{
     color:#6f829a;
 }
 
-.serpent-info-item{
+.ophi-info-item{
     font-size:9px;
     letter-spacing:.16em;
 }
 
-.serpent-info-item strong{
+.ophi-info-item strong{
     display:block;
     color:#d9e7fa;
     font-size:11px;
@@ -941,26 +941,26 @@ a{
     margin-top:8px;
 }
 
-.serpent-corner{
+.ophi-corner{
     position:absolute;
     width:70px;
     height:70px;
     opacity:0;
 }
 
-.serpent-corner::before,
-.serpent-corner::after{
+.ophi-corner::before,
+.ophi-corner::after{
     content:"";
     position:absolute;
     background:rgba(113,170,244,.4);
 }
 
-.serpent-corner::before{
+.ophi-corner::before{
     width:70px;
     height:1px;
 }
 
-.serpent-corner::after{
+.ophi-corner::after{
     width:1px;
     height:70px;
 }
@@ -1157,11 +1157,11 @@ a{
     .eco-card.c2{left:8%}
     .eco-card.c4{right:8%}
 
-    .serpent-name{
+    .ophi-name{
         font-size:22vw;
     }
 
-    .serpent-info{
+    .ophi-info{
         left:7%;
         bottom:7%;
         gap:24px;
@@ -1191,7 +1191,7 @@ a{
             <span class="nav-dot"></span>
             NOPPOSTUDIO AI ENGINE
         </div>
-        <span>V1</span>
+        <span>V2</span>
     </div>
 </header>
 
@@ -1406,67 +1406,67 @@ a{
 
 
 <!-- =====================================================
-     SERPENT
+     OPHI
 ===================================================== -->
 
-<section class="section serpent" data-scene="serpent">
+<section class="section ophi" data-scene="ophi">
 
-    <div class="sticky serpent-stage">
+    <div class="sticky ophi-stage">
 
-        <div class="serpent-stars" id="serpentStars"></div>
+        <div class="ophi-stars" id="ophiStars"></div>
 
-        <div class="serpent-grid" id="serpentGrid"></div>
+        <div class="ophi-grid" id="ophiGrid"></div>
 
-        <div class="serpent-atmosphere" id="serpentAtmosphere"></div>
+        <div class="ophi-atmosphere" id="ophiAtmosphere"></div>
 
-        <div class="serpent-orbit o1" id="orbit1"></div>
-        <div class="serpent-orbit o2" id="orbit2"></div>
-        <div class="serpent-orbit o3" id="orbit3"></div>
+        <div class="ophi-orbit o1" id="orbit1"></div>
+        <div class="ophi-orbit o2" id="orbit2"></div>
+        <div class="ophi-orbit o3" id="orbit3"></div>
 
-        <div class="serpent-axis x" id="serpentAxisX"></div>
-        <div class="serpent-axis y" id="serpentAxisY"></div>
+        <div class="ophi-axis x" id="ophiAxisX"></div>
+        <div class="ophi-axis y" id="ophiAxisY"></div>
 
-        <div class="serpent-core" id="serpentCore"></div>
+        <div class="ophi-core" id="ophiCore"></div>
 
-        <div class="serpent-lockup">
+        <div class="ophi-lockup">
 
-            <div class="serpent-kicker" id="serpentKicker">
-                MORITZ / GENERATION 01
+            <div class="ophi-kicker" id="ophiKicker">
+                MORITZ / GENERATION 02
             </div>
 
-            <h2 class="serpent-name" id="serpentName">
-                SERPENT
+            <h2 class="ophi-name" id="ophiName">
+                OPHI
             </h2>
 
-            <div class="serpent-version" id="serpentVersion">
-                MORITZ v1
+            <div class="ophi-version" id="ophiVersion">
+                MORITZ v2
             </div>
 
         </div>
 
-        <div class="serpent-info" id="serpentInfo">
+        <div class="ophi-info" id="ophiInfo">
 
-            <div class="serpent-info-item">
+            <div class="ophi-info-item">
                 GENERATION
-                <strong>01</strong>
+                <strong>02</strong>
             </div>
 
-            <div class="serpent-info-item">
+            <div class="ophi-info-item">
                 ENGINE
                 <strong>MORITZ</strong>
             </div>
 
-            <div class="serpent-info-item">
+            <div class="ophi-info-item">
                 STATUS
                 <strong>ACTIVE</strong>
             </div>
 
         </div>
 
-        <div class="serpent-corner sc-tl" id="sc1"></div>
-        <div class="serpent-corner sc-tr" id="sc2"></div>
-        <div class="serpent-corner sc-br" id="sc3"></div>
-        <div class="serpent-corner sc-bl" id="sc4"></div>
+        <div class="ophi-corner sc-tl" id="sc1"></div>
+        <div class="ophi-corner sc-tr" id="sc2"></div>
+        <div class="ophi-corner sc-br" id="sc3"></div>
+        <div class="ophi-corner sc-bl" id="sc4"></div>
 
     </div>
 </section>
@@ -1921,7 +1921,7 @@ function renderEcosystem(p){
     /*
       Toward the end:
       everything contracts into the core.
-      This is the bridge to Serpent.
+      This is the bridge to Ophi.
     */
 
     const collapse = ease(map(p,.78,1,0,1));
@@ -1940,14 +1940,14 @@ function renderEcosystem(p){
 
 
 /* =========================================================
-   SERPENT
+   OPHI
 ========================================================= */
 
-function renderSerpent(p){
+function renderOphi(p){
 
     /*
       This is not:
-      "SERPENT appears."
+      "OPHI appears."
 
       It is:
       ecosystem collapses
@@ -1963,13 +1963,13 @@ function renderSerpent(p){
 
     const field = easeOut(map(p,0,.16,0,1));
 
-    $("serpentStars").style.opacity =
+    $("ophiStars").style.opacity =
         lerp(.03,.20,field);
 
-    $("serpentGrid").style.opacity =
+    $("ophiGrid").style.opacity =
         lerp(.0,.75,field);
 
-    $("serpentAtmosphere").style.opacity =
+    $("ophiAtmosphere").style.opacity =
         lerp(.0,1,field);
 
     const orbit = easeOut(map(p,.10,.40,0,1));
@@ -1992,10 +1992,10 @@ function renderSerpent(p){
          rotateZ(${lerp(110,72,orbit)}deg)
          scale(${lerp(.3,1,orbit)})`;
 
-    $("serpentAxisX").style.opacity =
+    $("ophiAxisX").style.opacity =
         lerp(0,.5,orbit);
 
-    $("serpentAxisY").style.opacity =
+    $("ophiAxisY").style.opacity =
         lerp(0,.5,orbit);
 
     /*
@@ -2004,31 +2004,31 @@ function renderSerpent(p){
 
     const core = easeOut(map(p,.30,.56,0,1));
 
-    $("serpentCore").style.opacity = core;
+    $("ophiCore").style.opacity = core;
 
-    $("serpentCore").style.transform =
+    $("ophiCore").style.transform =
         `translate(-50%,-50%)
          scale(${lerp(.08,1,core)})
          rotate(${lerp(-40,0,core)}deg)`;
 
     /*
-      SERPENT emerges from the completed structure.
+      OPHI emerges from the completed structure.
       No letter splitting.
     */
 
     const identity = easeOut(map(p,.43,.68,0,1));
 
-    $("serpentKicker").style.opacity =
+    $("ophiKicker").style.opacity =
         identity;
 
-    $("serpentName").style.opacity =
+    $("ophiName").style.opacity =
         identity;
 
-    $("serpentName").style.transform =
+    $("ophiName").style.transform =
         `scale(${lerp(.72,1,identity)})
          translateY(${lerp(35,0,identity)}px)`;
 
-    $("serpentVersion").style.opacity =
+    $("ophiVersion").style.opacity =
         easeOut(map(p,.55,.72,0,1));
 
     /*
@@ -2041,19 +2041,19 @@ function renderSerpent(p){
     const breathe =
         Math.sin(p*Math.PI*5)*3;
 
-    $("serpentName").style.transform =
+    $("ophiName").style.transform =
         `scale(${lerp(.99,1.02,settle)})
          translateY(${breathe}px)`;
 
-    $("serpentCore").style.transform =
+    $("ophiCore").style.transform =
         `translate(-50%,-50%)
          scale(${lerp(1,1.08,settle)})
          rotate(${lerp(0,18,settle)}deg)`;
 
-    $("serpentInfo").style.opacity =
+    $("ophiInfo").style.opacity =
         easeOut(map(p,.65,.78,0,1));
 
-    document.querySelectorAll(".serpent-corner")
+    document.querySelectorAll(".ophi-corner")
         .forEach((corner,i)=>{
 
             corner.style.opacity =
@@ -2068,23 +2068,23 @@ function renderSerpent(p){
 
     const exit = ease(map(p,.86,1,0,1));
 
-    $("serpentAtmosphere").style.transform =
+    $("ophiAtmosphere").style.transform =
         `translate(-50%,-50%)
          scale(${lerp(1,2.5,exit)})`;
 
-    $("serpentGrid").style.transform =
+    $("ophiGrid").style.transform =
         `perspective(650px)
          rotateX(${lerp(68,82,exit)}deg)
          translateY(${lerp(0,25,exit)}%)`;
 
-    $("serpentName").style.transform =
+    $("ophiName").style.transform =
         `scale(${lerp(1,1.65,exit)})
          translateY(${lerp(breathe,-100,exit)}px)`;
 
-    $("serpentName").style.opacity =
+    $("ophiName").style.opacity =
         lerp(identity,0,exit);
 
-    $("serpentVersion").style.opacity =
+    $("ophiVersion").style.opacity =
         lerp(
             easeOut(map(p,.55,.72,0,1)),
             0,
@@ -2204,8 +2204,8 @@ function render(){
                 renderEcosystem(p);
                 break;
 
-            case "serpent":
-                renderSerpent(p);
+            case "ophi":
+                renderOphi(p);
                 break;
 
             case "engine":
@@ -2250,10 +2250,10 @@ window.addEventListener("pointermove",e=>{
     $("heroMark").style.marginTop =
         `${mouseY*8}px`;
 
-    $("serpentAtmosphere").style.marginLeft =
+    $("ophiAtmosphere").style.marginLeft =
         `${mouseX*12}px`;
 
-    $("serpentAtmosphere").style.marginTop =
+    $("ophiAtmosphere").style.marginTop =
         `${mouseY*12}px`;
 
 },{passive:true});
